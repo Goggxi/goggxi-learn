@@ -30,3 +30,10 @@ func RespondWithSuccess(c *fiber.Ctx, statusCode int, message string, data inter
 	}
 	return c.Status(statusCode).JSON(response)
 }
+
+func RespondWithSwaggerError(message string, errors interface{}) SwaggerErrorResponse {
+	return SwaggerErrorResponse{
+		Message: message,
+		Errors:  errors,
+	}
+}

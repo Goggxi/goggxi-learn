@@ -70,8 +70,8 @@ func (h *authHandlers) Signup(c *fiber.Ctx) error {
 // @Produce json
 // @Param user body requests.LoginRequest true "User Login"
 // @Success 200 {object} responses.UserTokenResponse
-// @Failure 400 {object} utils.SwaggerErrorResponse
-// @Failure 401 {object} utils.SwaggerErrorResponse
+// @Failure 400 {object} utils.SwaggerErrorResponse "Invalid request body"
+// @Failure 401 {object} utils.SwaggerErrorResponse "User authentication failed"
 // @Router /auth/login [post]
 func (h *authHandlers) Login(c *fiber.Ctx) error {
 	var req = requests.LoginRequest{}
@@ -120,6 +120,18 @@ func (h *authHandlers) RefreshToken(c *fiber.Ctx) error {
 	})
 }
 
+// GetCurrentUser godoc
+// @Summary Get current user information
+// @Description Retrieve information about the currently authenticated user
+// @Tags auth-protected
+// @Accept json
+// @Produce json
+// @Security BearerAuth
+// @Success 200 {object} responses.UserResponse
+// @Failure 401 {object} utils.SwaggerErrorResponse
+// @Failure 404 {object} utils.SwaggerErrorResponse
+// @Failure 500 {object} utils.SwaggerErrorResponse
+// @Router /auth/me [get]
 func (h *authHandlers) GetCurrentUser(c *fiber.Ctx) error {
 	userID := c.Locals("userID").(string)
 	userRes, err := h.authService.GetCurrentUser(c.Context(), userID)
@@ -127,9 +139,7 @@ func (h *authHandlers) GetCurrentUser(c *fiber.Ctx) error {
 		return utils.RespondWithError(c, fiber.StatusNotFound, utils.UserNotFound, err.Error())
 	}
 
-	return utils.RespondWithSuccess(c, fiber.StatusOK, utils.UserFound, fiber.Map{
-		"user": userRes,
-	})
+	return utils.RespondWithSuccess(c, fiber.StatusOK, utils.UserFound, userRes)
 }
 
 func NewAuthHandlers(authService services.AuthService) AuthHandlers {

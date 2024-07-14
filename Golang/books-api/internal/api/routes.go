@@ -34,6 +34,6 @@ func SetupRoutes(app *fiber.App, pool *pgxpool.Pool) {
 	// Protected routes
 	protectedAuth := auth.Use(middlewares.AuthMiddleware())
 	protectedAuth.Post("/logout", authHandlers.Logout)
-	protectedAuth.Get("/current_user", authHandlers.GetCurrentUser)
+	protectedAuth.Get("/me", authHandlers.GetCurrentUser)
 	protectedAuth.Post("/refresh_token", authHandlers.RefreshToken)
 }

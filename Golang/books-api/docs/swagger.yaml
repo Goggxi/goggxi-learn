@@ -105,16 +105,45 @@ paths:
           schema:
             $ref: '#/definitions/responses.UserTokenResponse'
         "400":
-          description: Bad Request
+          description: Invalid request body
           schema:
             $ref: '#/definitions/utils.SwaggerErrorResponse'
         "401":
-          description: Unauthorized
+          description: User authentication failed
           schema:
             $ref: '#/definitions/utils.SwaggerErrorResponse'
       summary: Login a user
       tags:
       - auth-public
+  /auth/me:
+    get:
+      consumes:
+      - application/json
+      description: Retrieve information about the currently authenticated user
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/responses.UserResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/utils.SwaggerErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/utils.SwaggerErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/utils.SwaggerErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Get current user information
+      tags:
+      - auth-protected
   /auth/signup:
     post:
       consumes:
@@ -145,4 +174,11 @@ paths:
       summary: Register a new user
       tags:
       - auth-public
+security:
+- Bearer: []
+securityDefinitions:
+  BearerAuth:
+    in: header
+    name: Authorization
+    type: apiKey
 swagger: "2.0"

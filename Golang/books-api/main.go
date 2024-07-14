@@ -7,9 +7,18 @@ import (
 	"book-api/platform/database"
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
+	"github.com/gofiber/fiber/v2/middleware/logger"
 	"github.com/gofiber/swagger"
 	"log"
 )
+
+// @securityDefinitions.apikey BearerAuth
+// @in header
+// @name Authorization
+
+// @SecurityDefinitions.Bearer
+// @BearerFormat JWT
+// @Security Bearer
 
 // @title Book API
 // @version 1.0
@@ -33,10 +42,13 @@ func main() {
 
 	app := fiber.New()
 
-	app.Use(cors.New(cors.Config{
-		AllowOrigins: "*", // or specify domains such as "http://example.com, https://example.com"
-		AllowMethods: "GET,POST,PUT,DELETE,OPTIONS",
-	}))
+	app.Use(
+		cors.New(cors.Config{
+			AllowOrigins: "*", // or specify domains such as "http://example.com, https://example.com"
+			AllowMethods: "GET,POST,PUT,DELETE,OPTIONS",
+		}),
+		logger.New(),
+	)
 
 	app.Get("/swagger/*", swagger.HandlerDefault)
 
