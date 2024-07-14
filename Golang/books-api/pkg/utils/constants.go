@@ -1,6 +1,7 @@
 package utils
 
 const (
+	NotFoundRoutes     = "sorry, endpoint is not found"
 	InvalidRequestBody = "invalid request body"
 	ValidationFailed   = "validation failed"
 	PasswordMismatch   = "password and confirm password do not match"

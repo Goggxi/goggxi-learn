@@ -6,6 +6,12 @@ import (
 	"strings"
 )
 
+// AuthMiddleware godoc
+// @Summary Authenticate requests
+// @Description Middleware to authenticate requests using JWT
+// @Tags middleware
+// @Param Authorization header string true "Bearer <token>"
+// @Failure 401 {object} utils.SwaggerErrorResponse
 func AuthMiddleware() fiber.Handler {
 	return func(c *fiber.Ctx) error {
 		authHeader := c.Get("Authorization")

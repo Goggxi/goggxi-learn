@@ -59,6 +59,11 @@ VALUES ('mohrifkan', '$2a$12$Yzl3Oaj4T9//KPBYK/5mUelIDz5EFPKFtIqCjntLzcQT6ch7lCF
 SELECT *
 FROM users;
 
+DELETE
+FROM users
+WHERE username = 'mohrifkan';
+
+
 -- Example data insertion for authors
 INSERT INTO authors (name, title)
 VALUES ('Tan Malaka', 'Pahlawan Indonesia'),

@@ -10,6 +10,11 @@ type JSONResponse struct {
 	Errors  interface{} `json:"errors,omitempty"`
 }
 
+type SwaggerErrorResponse struct {
+	Message string      `json:"message" example:"Error message"`
+	Errors  interface{} `json:"errors"`
+}
+
 func RespondWithError(c *fiber.Ctx, statusCode int, message string, errors interface{}) error {
 	response := JSONResponse{
 		Message: message,

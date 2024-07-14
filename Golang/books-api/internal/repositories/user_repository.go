@@ -50,9 +50,9 @@ func (r *userRepository) FindAll(ctx context.Context, tx pgx.Tx) ([]*entities.Us
 }
 
 func (r *userRepository) FindByID(ctx context.Context, tx pgx.Tx, id string) (*entities.User, error) {
-	query := `SELECT id, full_name, username, created_at, updated_at FROM users WHERE id = $1`
+	query := `SELECT id, full_name, username, password, created_at, updated_at FROM users WHERE id = $1`
 	user := new(entities.User)
-	err := tx.QueryRow(ctx, query, id).Scan(&user.ID, &user.FullName, &user.Username, &user.CreatedAt, &user.UpdatedAt)
+	err := tx.QueryRow(ctx, query, id).Scan(&user.ID, &user.FullName, &user.Username, &user.Password, &user.CreatedAt, &user.UpdatedAt)
 	if err != nil {
 		return nil, err
 	}
@@ -60,9 +60,9 @@ func (r *userRepository) FindByID(ctx context.Context, tx pgx.Tx, id string) (*e
 }
 
 func (r *userRepository) FindByUsername(ctx context.Context, tx pgx.Tx, username string) (*entities.User, error) {
-	query := `SELECT id, full_name, username, created_at, updated_at FROM users WHERE username = $1`
+	query := `SELECT id, full_name, username, password, created_at, updated_at FROM users WHERE username = $1`
 	user := new(entities.User)
-	err := tx.QueryRow(ctx, query, username).Scan(&user.ID, &user.FullName, &user.Username, &user.CreatedAt, &user.UpdatedAt)
+	err := tx.QueryRow(ctx, query, username).Scan(&user.ID, &user.FullName, &user.Username, &user.Password, &user.CreatedAt, &user.UpdatedAt)
 	if err != nil {
 		return nil, err
 	}

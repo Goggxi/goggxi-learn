@@ -1,0 +1,148 @@
+basePath: /api/v1
+definitions:
+  requests.LoginRequest:
+    properties:
+      password:
+        example: password
+        maxLength: 20
+        minLength: 6
+        type: string
+      username:
+        example: johndoe
+        type: string
+    required:
+    - password
+    - username
+    type: object
+  requests.SignupRequest:
+    properties:
+      confirm_password:
+        example: password
+        maxLength: 20
+        minLength: 6
+        type: string
+      full_name:
+        example: John Doe
+        type: string
+      password:
+        example: password
+        maxLength: 20
+        minLength: 6
+        type: string
+      username:
+        example: johndoe
+        type: string
+    required:
+    - confirm_password
+    - full_name
+    - password
+    - username
+    type: object
+  responses.UserResponse:
+    properties:
+      created_at:
+        example: "2023-07-14T12:34:56Z"
+        type: string
+      full_name:
+        example: johndoe
+        type: string
+      id:
+        example: 123e4567-e89b-12d3-a456-426614174000
+        type: string
+      updated_at:
+        example: "2023-07-14T12:34:56Z"
+        type: string
+      username:
+        example: John Doe
+        type: string
+    type: object
+  responses.UserTokenResponse:
+    properties:
+      token:
+        example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+        type: string
+      user:
+        $ref: '#/definitions/responses.UserResponse'
+    type: object
+  utils.SwaggerErrorResponse:
+    properties:
+      errors: {}
+      message:
+        example: Error message
+        type: string
+    type: object
+host: localhost:3000
+info:
+  contact:
+    email: support@swagger.io
+    name: API Support
+    url: http://www.swagger.io/support
+  description: This is a sample Book API server.
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  termsOfService: http://swagger.io/terms/
+  title: Book API
+  version: "1.0"
+paths:
+  /auth/login:
+    post:
+      consumes:
+      - application/json
+      description: Login a user with the provided credentials
+      parameters:
+      - description: User Login
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/requests.LoginRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/responses.UserTokenResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/utils.SwaggerErrorResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/utils.SwaggerErrorResponse'
+      summary: Login a user
+      tags:
+      - auth-public
+  /auth/signup:
+    post:
+      consumes:
+      - application/json
+      description: Register a new user with the provided information
+      parameters:
+      - description: User SignUp
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/requests.SignupRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/responses.UserTokenResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/utils.SwaggerErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/utils.SwaggerErrorResponse'
+      summary: Register a new user
+      tags:
+      - auth-public
+swagger: "2.0"

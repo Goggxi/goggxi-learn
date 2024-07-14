@@ -2,6 +2,7 @@ package handlers
 
 import (
 	"book-api/internal/models/entities"
+	"book-api/internal/models/requests"
 	"book-api/internal/services"
 	"book-api/pkg/utils"
 	"github.com/go-playground/validator/v10"
@@ -22,14 +23,19 @@ type authHandlers struct {
 	validate    *validator.Validate
 }
 
+// Signup godoc
+// @Summary Register a new user
+// @Description Register a new user with the provided information
+// @Tags auth-public
+// @Accept json
+// @Produce json
+// @Param user body requests.SignupRequest true "User SignUp"
+// @Success 201 {object} responses.UserTokenResponse
+// @Failure 400 {object} utils.SwaggerErrorResponse
+// @Failure 500 {object} utils.SwaggerErrorResponse
+// @Router /auth/signup [post]
 func (h *authHandlers) Signup(c *fiber.Ctx) error {
-	var req struct {
-		FullName        string `json:"full_name" validate:"required"`
-		Username        string `json:"username" validate:"required"`
-		Password        string `json:"password" validate:"required gte=6 lte=20"`
-		ConfirmPassword string `json:"confirm_password" validate:"required gte=6 lte=20"`
-	}
-
+	var req = requests.SignupRequest{}
 	if err := c.BodyParser(&req); err != nil {
 		return utils.RespondWithError(c, fiber.StatusBadRequest, utils.InvalidRequestBody, err.Error())
 	}
@@ -48,22 +54,27 @@ func (h *authHandlers) Signup(c *fiber.Ctx) error {
 		Password: req.Password,
 	}
 
-	userRes, token, err := h.authService.Signup(c.Context(), user)
+	userRes, err := h.authService.Signup(c.Context(), user)
 	if err != nil {
 		return utils.RespondWithError(c, fiber.StatusInternalServerError, utils.UserCreatedFailed, err.Error())
 	}
 
-	return utils.RespondWithSuccess(c, fiber.StatusCreated, utils.UserCreatedSuccessfully, fiber.Map{
-		"user":  userRes,
-		"token": token,
-	})
+	return utils.RespondWithSuccess(c, fiber.StatusCreated, utils.UserCreatedSuccessfully, userRes)
 }
 
+// Login godoc
+// @Summary Login a user
+// @Description Login a user with the provided credentials
+// @Tags auth-public
+// @Accept json
+// @Produce json
+// @Param user body requests.LoginRequest true "User Login"
+// @Success 200 {object} responses.UserTokenResponse
+// @Failure 400 {object} utils.SwaggerErrorResponse
+// @Failure 401 {object} utils.SwaggerErrorResponse
+// @Router /auth/login [post]
 func (h *authHandlers) Login(c *fiber.Ctx) error {
-	var req struct {
-		Username string `json:"username" validate:"required"`
-		Password string `json:"password" validate:"required gte=6 lte=20"`
-	}
+	var req = requests.LoginRequest{}
 
 	if err := c.BodyParser(&req); err != nil {
 		return utils.RespondWithError(c, fiber.StatusBadRequest, utils.InvalidRequestBody, err.Error())
@@ -73,15 +84,12 @@ func (h *authHandlers) Login(c *fiber.Ctx) error {
 		return utils.RespondWithError(c, fiber.StatusBadRequest, utils.ValidationFailed, err.Error())
 	}
 
-	userRes, token, err := h.authService.Login(c.Context(), req.Username, req.Password)
+	userRes, err := h.authService.Login(c.Context(), req.Username, req.Password)
 	if err != nil {
-		return utils.RespondWithError(c, fiber.StatusUnauthorized, utils.UserCreatedFailed, err.Error())
+		return utils.RespondWithError(c, fiber.StatusUnauthorized, utils.UserAuthenticationFailed, err.Error())
 	}
 
-	return utils.RespondWithSuccess(c, fiber.StatusOK, utils.UserLoggedIn, fiber.Map{
-		"user":  userRes,
-		"token": token,
-	})
+	return utils.RespondWithSuccess(c, fiber.StatusOK, utils.UserLoggedIn, userRes)
 }
 
 func (h *authHandlers) Logout(c *fiber.Ctx) error {
