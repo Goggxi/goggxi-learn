@@ -9,8 +9,10 @@
 - Request Body:
 ```json
 {
+  "full_name": "full_name",
   "username": "username",
-  "password": "password"
+  "password": "password",
+  "confirm_password": "confirm_password"
 }
 ```
 - Response `201`:
@@ -20,6 +22,7 @@
   "data": {
     "user": {
       "id": "id",
+      "full_name": "full_name",
       "username": "username",
       "created_at": "created_at",
       "updated_at": "updated_at"
@@ -45,6 +48,7 @@
   "data": {
     "user": {
       "id": "id",
+      "full_name": "full_name",
       "username": "username",
       "created_at": "created_at",
       "updated_at": "updated_at"
@@ -115,6 +119,7 @@
       "title": "title",
       "user" : {
         "id": "id",
+        "full_name": "full_name",
         "username": "username",
         "created_at": "created_at",
         "updated_at": "updated_at"
@@ -210,6 +215,7 @@
   "data": {
     "user": {
       "id": "id",
+      "full_name": "full_name",
       "username": "username"
     }
   }
