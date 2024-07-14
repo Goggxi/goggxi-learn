@@ -1,12 +1,12 @@
 package models
 
 import (
-	"book-api/models/entities"
-	"book-api/models/responses"
+	entities2 "book-api/internal/models/entities"
+	responses2 "book-api/internal/models/responses"
 )
 
-func ConvertUserToResponse(user entities.User) responses.UserResponse {
-	return responses.UserResponse{
+func ConvertUserToResponse(user entities2.User) responses2.UserResponse {
+	return responses2.UserResponse{
 		ID:        user.ID,
 		Username:  user.Username,
 		CreatedAt: user.CreatedAt,
@@ -15,8 +15,8 @@ func ConvertUserToResponse(user entities.User) responses.UserResponse {
 
 }
 
-func ConvertAuthorToResponse(author entities.Author) responses.AuthorResponse {
-	return responses.AuthorResponse{
+func ConvertAuthorToResponse(author entities2.Author) responses2.AuthorResponse {
+	return responses2.AuthorResponse{
 		ID:        author.ID,
 		Name:      author.Name,
 		Title:     author.Title,
@@ -25,8 +25,8 @@ func ConvertAuthorToResponse(author entities.Author) responses.AuthorResponse {
 	}
 }
 
-func ConvertBookAttrsToResponse(bookAttrs entities.BookAttrs) responses.BookAttrsResponse {
-	return responses.BookAttrsResponse{
+func ConvertBookAttrsToResponse(bookAttrs entities2.BookAttrs) responses2.BookAttrsResponse {
+	return responses2.BookAttrsResponse{
 		ID:          bookAttrs.ID,
 		Publisher:   bookAttrs.Publisher,
 		Pages:       bookAttrs.Pages,
@@ -37,8 +37,8 @@ func ConvertBookAttrsToResponse(bookAttrs entities.BookAttrs) responses.BookAttr
 	}
 }
 
-func ConvertBookToResponse(book entities.Book, author entities.Author, bookAttrs entities.BookAttrs) responses.BookResponse {
-	return responses.BookResponse{
+func ConvertBookToResponse(book entities2.Book, author entities2.Author, bookAttrs entities2.BookAttrs) responses2.BookResponse {
+	return responses2.BookResponse{
 		ID:        book.ID,
 		Title:     book.Title,
 		UserID:    book.UserID,
@@ -49,8 +49,8 @@ func ConvertBookToResponse(book entities.Book, author entities.Author, bookAttrs
 	}
 }
 
-func ConvertBooksToResponse(books []entities.Book, authors []entities.Author, bookAttrsList []entities.BookAttrs) []responses.BookResponse {
-	bookResponses := make([]responses.BookResponse, len(books))
+func ConvertBooksToResponse(books []entities2.Book, authors []entities2.Author, bookAttrsList []entities2.BookAttrs) []responses2.BookResponse {
+	bookResponses := make([]responses2.BookResponse, len(books))
 	for i, book := range books {
 		bookResponses[i] = ConvertBookToResponse(book, authors[i], bookAttrsList[i])
 	}

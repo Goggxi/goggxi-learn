@@ -8,28 +8,29 @@ import (
 )
 
 type Config struct {
-	DBHost     string
-	DBPort     string
-	DBUser     string
-	DBPassword string
-	DBName     string
-	DBSSLMode  string
+	ServerAddress string
+	DBHost        string
+	DBPort        string
+	DBUser        string
+	DBPassword    string
+	DBName        string
+	DBSSLMode     string
 }
 
 func LoadConfig() Config {
-	// Muat file .env dari direktori app
 	err := godotenv.Load(".env")
 	if err != nil {
 		log.Fatalf("Error loading .env file: %v", err)
 	}
 
 	config := Config{
-		DBHost:     getEnv("DB_HOST", "localhost"),
-		DBPort:     getEnv("DB_PORT", "5432"),
-		DBUser:     getEnv("DB_USER", ""),
-		DBPassword: getEnv("DB_PASSWORD", ""),
-		DBName:     getEnv("DB_NAME", ""),
-		DBSSLMode:  getEnv("DB_SSLMODE", "disable"),
+		ServerAddress: getEnv("SERVER_ADDRESS", ":3000"),
+		DBHost:        getEnv("DB_HOST", "localhost"),
+		DBPort:        getEnv("DB_PORT", "5432"),
+		DBUser:        getEnv("DB_USER", ""),
+		DBPassword:    getEnv("DB_PASSWORD", ""),
+		DBName:        getEnv("DB_NAME", ""),
+		DBSSLMode:     getEnv("DB_SSLMODE", "disable"),
 	}
 
 	if config.DBUser == "" || config.DBPassword == "" || config.DBName == "" {

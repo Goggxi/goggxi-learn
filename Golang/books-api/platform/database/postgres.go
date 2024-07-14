@@ -1,7 +1,7 @@
 package database
 
 import (
-	"book-api/config"
+	"book-api/internal/config"
 	"context"
 	"fmt"
 	"github.com/jackc/pgx/v4/pgxpool"
@@ -29,5 +29,5 @@ func ConnectPostgresDB(cfg config.Config) {
 		log.Fatalf("Unable to ping database: %v\n", err)
 	}
 
-	fmt.Println("Connected to database!")
+	fmt.Println("Successfully connected to database")
 }
