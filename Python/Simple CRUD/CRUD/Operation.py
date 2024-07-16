@@ -27,13 +27,21 @@ def add():
         print("Database could not be saved")
 
 
-def read():
+def read(**kwargs):
     try:
-        with open(Database.DB_NAME, 'r', encoding='utf-8') as file:
+        with open(Database.DB_NAME, 'r') as file:
             content = file.readlines()
-            return content
-    except IOError:
-        print("Database could not be read")
+            book_count = len(content)
+            if "index" in kwargs:
+                book_index = kwargs["index"]-1
+                if book_index < 0 or book_index > book_count:
+                    return False
+                else:
+                    return content[book_index]
+            else:
+                return content
+    except FileNotFoundError:
+        print("Can't read data from database")
         return False
 
 
@@ -56,4 +64,22 @@ def create(title, author, year):
         print("Data could not be saved")
 
 
+def update(book_number, id, date_add, title, author, year):
+    data = Database.TEMPLATE.copy()
 
+    data["id"] = id
+    data["date_add"] = date_add
+    data["title"] = title + Database.TEMPLATE["title"][len(title):]
+    data["author"] = author + Database.TEMPLATE["author"][len(author):]
+    data["year"] = str(year)
+
+    data_str = f'{data["id"]},{data["date_add"]},{data["title"]},{data["author"]},{data["year"]}\n'
+
+    length = len(data_str)
+
+    try:
+        with(open(Database.DB_NAME, 'r+', encoding="utf-8")) as file:
+            file.seek(length * (book_number - 1))
+            file.write(data_str)
+    except FileNotFoundError:
+        print("error updating data")
