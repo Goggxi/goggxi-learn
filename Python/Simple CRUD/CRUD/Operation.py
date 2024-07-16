@@ -3,6 +3,7 @@ import time
 from . import Database
 from .Util import generate_id
 
+
 def add():
     title = input("Title: ")
     author = input("Author: ")
@@ -11,7 +12,7 @@ def add():
     data = Database.TEMPLATE.copy()
 
     data["id"] = generate_id(6)
-    data["date_add"] = time.strftime("%Y-%m-%d-%H-%M-%S%z",time.gmtime())
+    data["date_add"] = time.strftime("%Y-%m-%d-%H-%M-%S%z", time.gmtime())
     data["title"] = title + Database.TEMPLATE["title"][len(title):]
     data["author"] = author + Database.TEMPLATE["author"][len(author):]
     data["year"] = year
@@ -22,9 +23,9 @@ def add():
         with open(Database.DB_NAME, 'w', encoding='utf-8') as file:
             file.write(data_str)
             file.close()
-            print("Database saved")
     except IOError:
         print("Database could not be saved")
+
 
 def read():
     try:
@@ -34,3 +35,25 @@ def read():
     except IOError:
         print("Database could not be read")
         return False
+
+
+def create(title, author, year):
+    data = Database.TEMPLATE.copy()
+
+    data["id"] = generate_id(6)
+    data["date_add"] = time.strftime("%Y-%m-%d-%H-%M-%S%z", time.gmtime())
+    data["title"] = title + Database.TEMPLATE["title"][len(title):]
+    data["author"] = author + Database.TEMPLATE["author"][len(author):]
+    data["year"] = year
+
+    data_str = f'{data["id"]},{data["date_add"]},{data["title"]},{data["author"]},{data["year"]}\n'
+
+    try:
+        with open(Database.DB_NAME, 'a', encoding='utf-8') as file:
+            file.write(data_str)
+            file.close()
+    except IOError:
+        print("Data could not be saved")
+
+
+

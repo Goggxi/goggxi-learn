@@ -37,7 +37,7 @@ while(True):
 
     match user_input:
         case '1': CRUD.read_console()
-        case '2': print("Create Data")
+        case '2': CRUD.create_console()
         case '3': print("Update Data")
         case '4': print("Delete Data")
         case '5': print("Exit")
