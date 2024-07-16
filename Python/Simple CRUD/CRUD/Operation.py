@@ -1,3 +1,4 @@
+import os
 import time
 
 from . import Database
@@ -83,3 +84,24 @@ def update(book_number, id, date_add, title, author, year):
             file.write(data_str)
     except FileNotFoundError:
         print("error updating data")
+
+
+def delete(book_number):
+    try:
+        with open(Database.DB_NAME, 'r') as file:
+            counter = 0
+
+            while (True):
+                content = file.readline()
+                if len(content) == 0:
+                    break
+                elif counter == book_number - 1:
+                    pass
+                else:
+                    with open("data_temp.txt", 'a', encoding="utf-8") as temp_file:
+                        temp_file.write(content)
+                counter += 1
+    except:
+        print("database error")
+
+    os.rename("data_temp.txt", Database.DB_NAME)

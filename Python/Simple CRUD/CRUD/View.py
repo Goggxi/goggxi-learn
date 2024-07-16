@@ -102,3 +102,33 @@ def update_console():
             break
 
     Operation.update(book_number, id, date_add, title, author, year)
+
+
+def delete_console():
+    read_console()
+    while (True):
+        print("Please select book number to delete")
+        book_number = int(input("Book Number: "))
+        book_data = Operation.read(index=book_number)
+
+        if book_data:
+            data_break = book_data.split(',')
+            pk = data_break[0]
+            data_add = data_break[1]
+            title = data_break[2]
+            author = data_break[3]
+            year = data_break[4][:-1]
+
+            print("\n" + "=" * 100)
+            print("Data on delete")
+            print(f"1. Title\t: {title:.40}")
+            print(f"2. Author\t: {author:.40}")
+            print(f"3. Year\t: {year:4}")
+            is_done = input("Sure to delete [y/n]: ")
+            if is_done == "y" or is_done == "Y":
+                Operation.delete(book_number)
+                break
+        else:
+            print("number not found")
+
+    print("Book delete successful")
