@@ -21,7 +21,7 @@
 - id: string
 - name: string
 - album_id: string (foreign key)
-- duration: string
+- duration: float
 - release_date: string
 - created_at: string
 - updated_at: string
@@ -269,7 +269,7 @@
       "created_at": "created_at",
       "updated_at": "updated_at"
     },
-    "duration": "duration",
+    "duration": 0.0,
     "release_date": "release_date",
     "created_at": "created_at",
     "updated_at": "updated_at"
@@ -301,7 +301,7 @@
         "created_at": "created_at",
         "updated_at": "updated_at"
       },
-      "duration": "duration",
+      "duration": 0.0,
       "release_date": "release_date",
       "created_at": "created_at",
       "updated_at": "updated_at"
@@ -333,7 +333,7 @@
       "created_at": "created_at",
       "updated_at": "updated_at"
     },
-    "duration": "duration",
+    "duration": 0.0,
     "release_date": "release_date",
     "created_at": "created_at",
     "updated_at": "updated_at"
@@ -374,7 +374,7 @@
       "created_at": "created_at",
       "updated_at": "updated_at"
     },
-    "duration": "duration",
+    "duration": 0.0,
     "release_date": "release_date",
     "created_at": "created_at",
     "updated_at": "updated_at"

@@ -1,0 +1,10 @@
+POST localhost:3000/api/v1/artists
+Accept: application/json
+Content-Type: application/json
+
+{
+    "name": "Judika",
+    "bio": "Menari bersamaku"
+}
+
+
