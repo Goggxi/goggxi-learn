@@ -9,11 +9,6 @@ CREATE TABLE artists
     updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
-SELECT * FROM artists;
-
-DELETE FROM artists WHERE id = '1';
-
-
 CREATE TABLE albums
 (
     id           VARCHAR PRIMARY KEY,

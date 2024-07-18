@@ -1,0 +1,258 @@
+basePath: /api/v1
+definitions:
+  api.Artist:
+    properties:
+      bio:
+        example: Lorem ipsum dolor sit amet
+        type: string
+      created_at:
+        example: "2021-08-01T00:00:00Z"
+        type: string
+      id:
+        example: f4ff0500-7dcd-4f28-9e3e-77859a02977
+        type: string
+      name:
+        example: John Doe
+        type: string
+      updated_at:
+        example: "2021-08-01T00:00:00Z"
+        type: string
+    type: object
+  api.ArtistReq:
+    properties:
+      bio:
+        example: Lorem ipsum dolor sit amet
+        type: string
+      name:
+        example: John Doe
+        type: string
+    required:
+    - name
+    type: object
+  utils.ErrorResponse:
+    properties:
+      error: {}
+      message:
+        example: error
+        type: string
+    type: object
+  utils.SuccessResponse:
+    properties:
+      data: {}
+      message:
+        example: success
+        type: string
+    type: object
+host: localhost:3000
+info:
+  contact:
+    email: goggxi@gmail.com
+    name: Moh Rifkan
+    url: https://github.com/Goggxi
+  description: This is a simple songs API
+  title: Songs API
+  version: "1"
+paths:
+  /artists:
+    get:
+      consumes:
+      - application/json
+      description: Get all artists
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/utils.SuccessResponse'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/api.Artist'
+                  type: array
+              type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            allOf:
+            - $ref: '#/definitions/utils.ErrorResponse'
+            - properties:
+                error:
+                  type: string
+              type: object
+      summary: Get all artists
+      tags:
+      - artists
+    post:
+      consumes:
+      - application/json
+      description: Create a new artist
+      parameters:
+      - description: Artist request
+        in: body
+        name: artist
+        required: true
+        schema:
+          $ref: '#/definitions/api.ArtistReq'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            allOf:
+            - $ref: '#/definitions/utils.SuccessResponse'
+            - properties:
+                data:
+                  $ref: '#/definitions/api.Artist'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            allOf:
+            - $ref: '#/definitions/utils.ErrorResponse'
+            - properties:
+                error:
+                  type: string
+              type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            allOf:
+            - $ref: '#/definitions/utils.ErrorResponse'
+            - properties:
+                error:
+                  type: string
+              type: object
+      summary: Create a new artist
+      tags:
+      - artists
+  /artists/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete an artist by ID
+      parameters:
+      - description: Artist ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/utils.SuccessResponse'
+            - properties:
+                data:
+                  type: object
+              type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            allOf:
+            - $ref: '#/definitions/utils.ErrorResponse'
+            - properties:
+                error:
+                  type: string
+              type: object
+      summary: Delete an artist by ID
+      tags:
+      - artists
+    get:
+      consumes:
+      - application/json
+      description: Get an artist by ID
+      parameters:
+      - description: Artist ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/utils.SuccessResponse'
+            - properties:
+                data:
+                  $ref: '#/definitions/api.Artist'
+              type: object
+        "404":
+          description: Not Found
+          schema:
+            allOf:
+            - $ref: '#/definitions/utils.ErrorResponse'
+            - properties:
+                error:
+                  type: string
+              type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            allOf:
+            - $ref: '#/definitions/utils.ErrorResponse'
+            - properties:
+                error:
+                  type: string
+              type: object
+      summary: Get an artist by ID
+      tags:
+      - artists
+    put:
+      consumes:
+      - application/json
+      description: Update an artist
+      parameters:
+      - description: Artist ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Artist request
+        in: body
+        name: artist
+        required: true
+        schema:
+          $ref: '#/definitions/api.ArtistReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/utils.SuccessResponse'
+            - properties:
+                data:
+                  $ref: '#/definitions/api.Artist'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            allOf:
+            - $ref: '#/definitions/utils.ErrorResponse'
+            - properties:
+                error:
+                  type: string
+              type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            allOf:
+            - $ref: '#/definitions/utils.ErrorResponse'
+            - properties:
+                error:
+                  type: string
+              type: object
+      summary: Update an artist
+      tags:
+      - artists
+swagger: "2.0"

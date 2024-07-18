@@ -6,40 +6,50 @@ import (
 	"net/http"
 )
 
-type AppResponse struct {
-	Message string      `json:"message"`
+type SuccessResponse struct {
+	Message string      `json:"message" example:"success"`
 	Data    interface{} `json:"data,omitempty"`
+}
+
+type ErrorResponse struct {
+	Message string      `json:"message" example:"error"`
 	Error   interface{} `json:"error,omitempty"`
 }
 
-func writeResponse(c *gin.Context, status int, message string, data interface{}, errors interface{}) {
-	c.JSON(status, AppResponse{
+func writeSuccessResponse(c *gin.Context, status int, message string, data interface{}) {
+	c.JSON(status, SuccessResponse{
 		Message: message,
 		Data:    data,
+	})
+}
+
+func writeErrorResponse(c *gin.Context, status int, message string, errors interface{}) {
+	c.JSON(status, ErrorResponse{
+		Message: message,
 		Error:   errors,
 	})
 }
 
-func SuccessResponse(c *gin.Context, message string, data interface{}) {
+func WriteSuccessResponse(c *gin.Context, message string, data interface{}) {
 	switch message {
 	case CREATED_MESSAGE:
-		writeResponse(c, http.StatusCreated, message, data, nil)
+		writeSuccessResponse(c, http.StatusCreated, message, data)
 	default:
-		writeResponse(c, http.StatusOK, message, data, nil)
+		writeSuccessResponse(c, http.StatusOK, message, data)
 	}
 }
 
-func ErrorResponse(c *gin.Context, message string, errors interface{}) {
+func WriteErrorResponse(c *gin.Context, message string, errors interface{}) {
 	switch message {
 	case BAD_REQUEST_MESSAGE:
-		writeResponse(c, http.StatusBadRequest, message, nil, errors)
+		writeErrorResponse(c, http.StatusBadRequest, message, errors)
 	case VALIDATE_ERRORS_MESSAGE:
-		writeResponse(c, http.StatusBadRequest, message, nil, errors)
+		writeErrorResponse(c, http.StatusBadRequest, message, errors)
 	default:
 		if errors == pgx.ErrNoRows.Error() {
-			writeResponse(c, http.StatusNotFound, NOT_FOUND_MESSAGE, nil, errors)
+			writeErrorResponse(c, http.StatusNotFound, NOT_FOUND_MESSAGE, errors)
 		} else {
-			writeResponse(c, http.StatusInternalServerError, INTERNAL_SERVER_ERROR_MESSAGE, nil, errors)
+			writeErrorResponse(c, http.StatusInternalServerError, INTERNAL_SERVER_ERROR_MESSAGE, errors)
 		}
 	}
 }

@@ -6,7 +6,8 @@ import (
 	"gin-songs-api/services"
 	"github.com/gin-gonic/gin"
 	"github.com/jackc/pgx/v4/pgxpool"
-	"net/http"
+	swaggerFiles "github.com/swaggo/files"
+	ginswagger "github.com/swaggo/gin-swagger"
 )
 
 func SetupRoutes(r *gin.Engine, pool *pgxpool.Pool) {
@@ -19,19 +20,20 @@ func SetupRoutes(r *gin.Engine, pool *pgxpool.Pool) {
 	// Controllers
 	artistController := controllers.NewArtistController(artistService)
 
-	// Welcome route
-	r.GET("/ping", func(c *gin.Context) {
-		c.JSON(http.StatusOK, gin.H{
-			"message": "pong",
-		})
-	})
+	// Docs
+	r.GET("/swagger/*any", ginswagger.WrapHandler(swaggerFiles.Handler))
 
+	// Path: /api/v1
 	api := r.Group("/api/v1")
 
+	// Path: /api/v1/artists
 	artists := api.Group("/artists")
-	artists.POST("/", artistController.Create)
-	artists.PUT("/:id", artistController.Update)
-	artists.GET("/", artistController.FindAll)
-	artists.GET("/:id", artistController.FindById)
-	artists.DELETE("/:id", artistController.Delete)
+	{
+		artists.POST("/", artistController.Create)
+		artists.PUT("/:id", artistController.Update)
+		artists.GET("/", artistController.FindAll)
+		artists.GET("/:id", artistController.FindById)
+		artists.DELETE("/:id", artistController.Delete)
+	}
+
 }

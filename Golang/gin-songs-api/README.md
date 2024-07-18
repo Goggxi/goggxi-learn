@@ -1,5 +1,66 @@
 # Gin Songs API
 
+## Description
+This is a simple API for managing artists, albums and songs.
+
+## Technologies
+- Go
+- Gin-Gonic
+- PostgresSQL
+- Swagger
+- Docker for PostgresSQL
+
+## Installation
+### Docker PostgresSQL Setup
+- Pull the PostgresSQL image:
+```bash
+docker pull postgres
+```
+
+- Create a PostgresSQL container:
+```bash
+docker run --name postgres-container -e POSTGRES_PASSWORD=postgres -p 5432:5432 -d postgres
+```
+
+- Access the PostgresSQL container:
+```bash
+docker exec -it postgres-container psql -U postgres
+```
+
+- Create a database:
+```sql
+CREATE DATABASE db_gin_songs_api_golang;
+```
+
+- Connect to the database:
+```sql
+\c db_gin_songs_api_golang
+```
+
+- Create the tables:
+open the `migrations.sql` file in the `db` directory and copy the contents to the terminal.
+
+### Project Setup
+- Clone the repository
+- Create a `.env` file in the root directory and add the following environment variables:
+```env
+# APP
+SERVER_ADDRESS=:3000
+
+# DB
+DB_HOST=localhost
+DB_PORT=5432
+DB_USER=postgres
+DB_PASSWORD=postgres
+DB_NAME=db_gin_songs_api_golang
+DB_SSLMODE=disable
+```
+- Run the following command to start the application:
+```bash
+go mod tidy
+go run main.go
+```
+
 ## Entity Schema
 ### Artist
 - id: string
