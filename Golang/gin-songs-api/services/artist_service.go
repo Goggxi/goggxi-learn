@@ -71,6 +71,11 @@ func (s *artistService) Update(ctx context.Context, id string, artist *entity.Ar
 
 	artist.ID = id
 
+	_, err = s.artistRepo.FindById(ctx, tx, artist.ID)
+	if err != nil {
+		return nil, err
+	}
+
 	err = s.artistRepo.Save(ctx, tx, artist)
 	if err != nil {
 		return nil, err
@@ -154,9 +159,13 @@ func (s *artistService) Delete(ctx context.Context, id string) error {
 		}
 	}(tx, ctx)
 
-	err = s.artistRepo.Delete(ctx, tx, id)
+	rowsAffected, err := s.artistRepo.Delete(ctx, tx, id)
 	if err != nil {
 		return err
+	}
+
+	if rowsAffected == 0 {
+		return pgx.ErrNoRows
 	}
 
 	err = tx.Commit(ctx)

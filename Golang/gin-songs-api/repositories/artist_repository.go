@@ -10,7 +10,7 @@ type ArtistRepository interface {
 	Save(ctx context.Context, tx pgx.Tx, artist *entity.Artist) error
 	FindAll(ctx context.Context, tx pgx.Tx) ([]*entity.Artist, error)
 	FindById(ctx context.Context, tx pgx.Tx, id string) (*entity.Artist, error)
-	Delete(ctx context.Context, tx pgx.Tx, id string) error
+	Delete(ctx context.Context, tx pgx.Tx, id string) (int64, error)
 }
 
 type artistRepository struct {
@@ -58,11 +58,14 @@ func (r *artistRepository) FindById(ctx context.Context, tx pgx.Tx, id string) (
 	return artist, nil
 }
 
-func (r *artistRepository) Delete(ctx context.Context, tx pgx.Tx, id string) error {
+func (r *artistRepository) Delete(ctx context.Context, tx pgx.Tx, id string) (int64, error) {
 	sql := `DELETE FROM artists WHERE id = $1`
-	_, err := tx.Exec(ctx, sql, id)
+	commandTag, err := tx.Exec(ctx, sql, id)
+	if err != nil {
+		return 0, err
+	}
 
-	return err
+	return commandTag.RowsAffected(), nil
 }
 
 func NewArtistRepository() ArtistRepository {

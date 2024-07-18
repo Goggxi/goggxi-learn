@@ -1,10 +1,28 @@
+### Create Artist
 POST localhost:3000/api/v1/artists
 Accept: application/json
 Content-Type: application/json
 
 {
-    "name": "Judika",
-    "bio": "Menari bersamaku"
+    "name": "Aril",
+    "bio": "halo"
 }
 
+### Update Artist
+PUT localhost:3000/api/v1/artists/f4ff0500-7dcd-4f28-9e3e-77859a029774
+Accept: application/json
+Content-Type: application/json
 
+{
+    "name": "Moh Rifkan",
+    "bio": "Kang Ketik Intelek"
+}
+
+### Get Artists
+GET localhost:3000/api/v1/artists
+
+### Get Artist
+GET localhost:3000/api/v1/artists/f4ff0500-7dcd-4f28-9e3e-77859a029774
+
+### Delete Artist
+DELETE localhost:3000/api/v1/artists/2020d6ab-93d5-4819-b124-917dbsasasasas

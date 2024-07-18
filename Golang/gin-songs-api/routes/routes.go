@@ -27,5 +27,11 @@ func SetupRoutes(r *gin.Engine, pool *pgxpool.Pool) {
 	})
 
 	api := r.Group("/api/v1")
-	api.POST("/artists", artistController.Create)
+
+	artists := api.Group("/artists")
+	artists.POST("/", artistController.Create)
+	artists.PUT("/:id", artistController.Update)
+	artists.GET("/", artistController.FindAll)
+	artists.GET("/:id", artistController.FindById)
+	artists.DELETE("/:id", artistController.Delete)
 }

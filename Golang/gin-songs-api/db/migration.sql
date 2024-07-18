@@ -11,6 +11,8 @@ CREATE TABLE artists
 
 SELECT * FROM artists;
 
+DELETE FROM artists WHERE id = '1';
+
 
 CREATE TABLE albums
 (
