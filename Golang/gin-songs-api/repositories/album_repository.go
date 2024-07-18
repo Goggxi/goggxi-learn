@@ -25,7 +25,7 @@ func (repo *albumRepository) Save(ctx context.Context, tx pgx.Tx, album *entity.
 			artist_id = EXCLUDED.artist_id,
 			release_date = EXCLUDED.release_date,
 			updated_at = NOW()
-	`, album.ID, album.Title, album.Genre, album.ArtistID, album.ReleaseDate)
+	`, album.ID, album.Title, album.Genre, album.Artist.ID, album.ReleaseDate)
 
 	return err
 }
@@ -38,7 +38,7 @@ func (repo *albumRepository) FindById(ctx context.Context, tx pgx.Tx, id string)
 	`, id)
 
 	var album entity.Album
-	err := row.Scan(&album.ID, &album.Title, &album.Genre, &album.ArtistID, &album.ReleaseDate, &album.CreatedAt, &album.UpdatedAt)
+	err := row.Scan(&album.ID, &album.Title, &album.Genre, &album.Artist.ID, &album.ReleaseDate, &album.CreatedAt, &album.UpdatedAt)
 	if err != nil {
 		return nil, err
 	}
@@ -59,7 +59,7 @@ func (repo *albumRepository) FindAll(ctx context.Context, tx pgx.Tx) ([]*entity.
 	var albums []*entity.Album
 	for rows.Next() {
 		var album entity.Album
-		err := rows.Scan(&album.ID, &album.Title, &album.Genre, &album.ArtistID, &album.ReleaseDate, &album.CreatedAt, &album.UpdatedAt)
+		err := rows.Scan(&album.ID, &album.Title, &album.Genre, &album.Artist.ID, &album.ReleaseDate, &album.CreatedAt, &album.UpdatedAt)
 		if err != nil {
 			return nil, err
 		}

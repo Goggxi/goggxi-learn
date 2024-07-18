@@ -48,7 +48,7 @@ func (s *albumService) Create(ctx context.Context, album *entity.Album) (*api.Al
 		return nil, err
 	}
 
-	artist, err := s.artistRepo.FindById(ctx, tx, album.ArtistID)
+	artist, err := s.artistRepo.FindById(ctx, tx, album.Artist.ID)
 	if err != nil {
 		return nil, err
 	}
@@ -88,7 +88,7 @@ func (s *albumService) Update(ctx context.Context, album *entity.Album) (*api.Al
 		return nil, err
 	}
 
-	artist, err := s.artistRepo.FindById(ctx, tx, album.ArtistID)
+	artist, err := s.artistRepo.FindById(ctx, tx, album.Artist.ID)
 	if err != nil {
 		return nil, err
 	}
@@ -120,7 +120,7 @@ func (s *albumService) FindAll(ctx context.Context) ([]*api.Album, error) {
 
 	var apiAlbums []*api.Album
 	for _, album := range data {
-		artist, err := s.artistRepo.FindById(ctx, tx, album.ArtistID)
+		artist, err := s.artistRepo.FindById(ctx, tx, album.Artist.ID)
 		if err != nil {
 			return nil, err
 		}
@@ -156,7 +156,7 @@ func (s *albumService) FindById(ctx context.Context, id string) (*api.Album, err
 		return nil, err
 	}
 
-	artist, err := s.artistRepo.FindById(ctx, tx, data.ArtistID)
+	artist, err := s.artistRepo.FindById(ctx, tx, data.Artist.ID)
 	if err != nil {
 		return nil, err
 	}

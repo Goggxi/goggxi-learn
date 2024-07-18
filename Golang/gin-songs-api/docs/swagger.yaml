@@ -5,7 +5,7 @@ definitions:
       artist:
         $ref: '#/definitions/api.Artist'
       created_at:
-        example: "2021-08-01T00:00:00Z"
+        example: "2024-07-18T16:19:49.703231Z"
         type: string
       genre:
         example: Pop
@@ -20,7 +20,7 @@ definitions:
         example: Album Title
         type: string
       updated_at:
-        example: "2021-08-01T00:00:00Z"
+        example: "2024-07-18T16:19:49.703231Z"
         type: string
     type: object
   api.AlbumReq:
@@ -32,7 +32,7 @@ definitions:
         example: Pop
         type: string
       release_date:
-        example: "2021-08-01T00:00:00Z"
+        example: "2024-07-18T16:19:49.703231Z"
         type: string
       title:
         example: Album Title
@@ -48,7 +48,7 @@ definitions:
         example: Lorem ipsum dolor sit amet
         type: string
       created_at:
-        example: "2021-08-01T00:00:00Z"
+        example: "2024-07-18T16:19:49.703231Z"
         type: string
       id:
         example: f4ff0500-7dcd-4f28-9e3e-77859a02977
@@ -57,7 +57,7 @@ definitions:
         example: John Doe
         type: string
       updated_at:
-        example: "2021-08-01T00:00:00Z"
+        example: "2024-07-18T16:19:49.703231Z"
         type: string
     type: object
   api.ArtistReq:
@@ -70,6 +70,48 @@ definitions:
         type: string
     required:
     - name
+    type: object
+  api.Song:
+    properties:
+      album:
+        $ref: '#/definitions/api.Album'
+      created_at:
+        example: "2024-07-18T16:19:49.703231Z"
+        type: string
+      duration:
+        example: 60
+        type: integer
+      id:
+        example: f4ff0500-7dcd-4f28-9e3e-77859a02977
+        type: string
+      release_date:
+        example: "2024-07-18T16:19:49.703231Z"
+        type: string
+      title:
+        example: Song Title
+        type: string
+      updated_at:
+        example: "2024-07-18T16:19:49.703231Z"
+        type: string
+    type: object
+  api.SongReq:
+    properties:
+      album_id:
+        example: f4ff0500-7dcd-4f28-9e3e-77859a02977
+        type: string
+      duration:
+        example: 60
+        type: integer
+      release_date:
+        example: "2024-07-18T16:19:49.703231Z"
+        type: string
+      title:
+        example: Song Title
+        type: string
+    required:
+    - album_id
+    - duration
+    - title
     type: object
   utils.ErrorResponse:
     properties:
@@ -499,4 +541,206 @@ paths:
       summary: Update an artist
       tags:
       - artists
+  /songs:
+    get:
+      consumes:
+      - application/json
+      description: Get all songs
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/utils.SuccessResponse'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/api.Song'
+                  type: array
+              type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            allOf:
+            - $ref: '#/definitions/utils.ErrorResponse'
+            - properties:
+                error:
+                  type: string
+              type: object
+      summary: Get all songs
+      tags:
+      - songs
+    post:
+      consumes:
+      - application/json
+      description: Create a new song
+      parameters:
+      - description: Song request
+        in: body
+        name: song
+        required: true
+        schema:
+          $ref: '#/definitions/api.SongReq'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            allOf:
+            - $ref: '#/definitions/utils.SuccessResponse'
+            - properties:
+                data:
+                  $ref: '#/definitions/api.Song'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            allOf:
+            - $ref: '#/definitions/utils.ErrorResponse'
+            - properties:
+                error:
+                  type: string
+              type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            allOf:
+            - $ref: '#/definitions/utils.ErrorResponse'
+            - properties:
+                error:
+                  type: string
+              type: object
+      summary: Create a new song
+      tags:
+      - songs
+  /songs/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete a song by ID
+      parameters:
+      - description: Song ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/utils.SuccessResponse'
+            - properties:
+                data:
+                  type: object
+              type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            allOf:
+            - $ref: '#/definitions/utils.ErrorResponse'
+            - properties:
+                error:
+                  type: string
+              type: object
+      summary: Delete a song by ID
+      tags:
+      - songs
+    get:
+      consumes:
+      - application/json
+      description: Get a song by ID
+      parameters:
+      - description: Song ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/utils.SuccessResponse'
+            - properties:
+                data:
+                  $ref: '#/definitions/api.Song'
+              type: object
+        "404":
+          description: Not Found
+          schema:
+            allOf:
+            - $ref: '#/definitions/utils.ErrorResponse'
+            - properties:
+                error:
+                  type: string
+              type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            allOf:
+            - $ref: '#/definitions/utils.ErrorResponse'
+            - properties:
+                error:
+                  type: string
+              type: object
+      summary: Get a song by ID
+      tags:
+      - songs
+    put:
+      consumes:
+      - application/json
+      description: Update a song
+      parameters:
+      - description: Song ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Song request
+        in: body
+        name: song
+        required: true
+        schema:
+          $ref: '#/definitions/api.SongReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/utils.SuccessResponse'
+            - properties:
+                data:
+                  $ref: '#/definitions/api.Song'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            allOf:
+            - $ref: '#/definitions/utils.ErrorResponse'
+            - properties:
+                error:
+                  type: string
+              type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            allOf:
+            - $ref: '#/definitions/utils.ErrorResponse'
+            - properties:
+                error:
+                  type: string
+              type: object
+      summary: Update a song
+      tags:
+      - songs
 swagger: "2.0"

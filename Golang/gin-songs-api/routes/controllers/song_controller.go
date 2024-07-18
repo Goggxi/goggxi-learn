@@ -9,24 +9,24 @@ import (
 	"github.com/go-playground/validator/v10"
 )
 
-type AlbumController struct {
-	service  services.AlbumService
+type SongController struct {
+	service  services.SongService
 	validate *validator.Validate
 }
 
 // Create godoc
-// @Summary Create a new album
-// @Description Create a new album
-// @Tags albums
+// @Summary Create a new song
+// @Description Create a new song
+// @Tags songs
 // @Accept  json
 // @Produce  json
-// @Param album body api.AlbumReq true "Album request"
-// @Success 201 {object} utils.SuccessResponse{data=api.Album}
+// @Param song body api.SongReq true "Song request"
+// @Success 201 {object} utils.SuccessResponse{data=api.Song}
 // @Failure 400 {object} utils.ErrorResponse{error=string}
 // @Failure 500 {object} utils.ErrorResponse{error=string}
-// @Router /albums [post]
-func (ctrl *AlbumController) Create(c *gin.Context) {
-	var req api.AlbumReq
+// @Router /songs [post]
+func (ctrl *SongController) Create(c *gin.Context) {
+	var req api.SongReq
 	err := c.BindJSON(&req)
 	if err != nil {
 		utils.WriteErrorResponse(c, utils.BAD_REQUEST_MESSAGE, err.Error())
@@ -40,13 +40,17 @@ func (ctrl *AlbumController) Create(c *gin.Context) {
 	}
 
 	album := &entity.Album{
+		ID: req.AlbumID,
+	}
+
+	song := &entity.Song{
 		Title:       req.Title,
-		Genre:       req.Genre,
-		Artist:      entity.Artist{ID: req.ArtistID},
+		Album:       *album,
+		Duration:    req.Duration,
 		ReleaseDate: req.ReleaseDate,
 	}
 
-	data, err := ctrl.service.Create(c, album)
+	data, err := ctrl.service.Create(c, song)
 	if err != nil {
 		utils.WriteErrorResponse(c, utils.INTERNAL_SERVER_ERROR_MESSAGE, err.Error())
 		return
@@ -56,21 +60,21 @@ func (ctrl *AlbumController) Create(c *gin.Context) {
 }
 
 // Update godoc
-// @Summary Update an album
-// @Description Update an album
-// @Tags albums
+// @Summary Update a song
+// @Description Update a song
+// @Tags songs
 // @Accept  json
 // @Produce  json
-// @Param id path string true "Album ID"
-// @Param album body api.AlbumReq true "Album request"
-// @Success 200 {object} utils.SuccessResponse{data=api.Album}
+// @Param id path string true "Song ID"
+// @Param song body api.SongReq true "Song request"
+// @Success 200 {object} utils.SuccessResponse{data=api.Song}
 // @Failure 400 {object} utils.ErrorResponse{error=string}
 // @Failure 500 {object} utils.ErrorResponse{error=string}
-// @Router /albums/{id} [put]
-func (ctrl *AlbumController) Update(c *gin.Context) {
+// @Router /songs/{id} [put]
+func (ctrl *SongController) Update(c *gin.Context) {
 	id := c.Param("id")
 
-	var req api.AlbumReq
+	var req api.SongReq
 	err := c.BindJSON(&req)
 	if err != nil {
 		utils.WriteErrorResponse(c, utils.BAD_REQUEST_MESSAGE, err.Error())
@@ -84,14 +88,18 @@ func (ctrl *AlbumController) Update(c *gin.Context) {
 	}
 
 	album := &entity.Album{
+		ID: req.AlbumID,
+	}
+
+	song := &entity.Song{
 		ID:          id,
 		Title:       req.Title,
-		Genre:       req.Genre,
-		Artist:      entity.Artist{ID: req.ArtistID},
+		Album:       *album,
+		Duration:    req.Duration,
 		ReleaseDate: req.ReleaseDate,
 	}
 
-	data, err := ctrl.service.Update(c, album)
+	data, err := ctrl.service.Update(c, song)
 	if err != nil {
 		utils.WriteErrorResponse(c, utils.INTERNAL_SERVER_ERROR_MESSAGE, err.Error())
 		return
@@ -101,15 +109,15 @@ func (ctrl *AlbumController) Update(c *gin.Context) {
 }
 
 // FindAll godoc
-// @Summary Get all albums
-// @Description Get all albums
-// @Tags albums
+// @Summary Get all songs
+// @Description Get all songs
+// @Tags songs
 // @Accept  json
 // @Produce  json
-// @Success 200 {object} utils.SuccessResponse{data=[]api.Album}
+// @Success 200 {object} utils.SuccessResponse{data=[]api.Song}
 // @Failure 500 {object} utils.ErrorResponse{error=string}
-// @Router /albums [get]
-func (ctrl *AlbumController) FindAll(c *gin.Context) {
+// @Router /songs [get]
+func (ctrl *SongController) FindAll(c *gin.Context) {
 	data, err := ctrl.service.FindAll(c)
 	if err != nil {
 		utils.WriteErrorResponse(c, utils.INTERNAL_SERVER_ERROR_MESSAGE, err.Error())
@@ -120,17 +128,17 @@ func (ctrl *AlbumController) FindAll(c *gin.Context) {
 }
 
 // FindById godoc
-// @Summary Get an album by ID
-// @Description Get an album by ID
-// @Tags albums
+// @Summary Get a song by ID
+// @Description Get a song by ID
+// @Tags songs
 // @Accept  json
 // @Produce  json
-// @Param id path string true "Album ID"
-// @Success 200 {object} utils.SuccessResponse{data=api.Album}
+// @Param id path string true "Song ID"
+// @Success 200 {object} utils.SuccessResponse{data=api.Song}
 // @Failure 404 {object} utils.ErrorResponse{error=string}
 // @Failure 500 {object} utils.ErrorResponse{error=string}
-// @Router /albums/{id} [get]
-func (ctrl *AlbumController) FindById(c *gin.Context) {
+// @Router /songs/{id} [get]
+func (ctrl *SongController) FindById(c *gin.Context) {
 	id := c.Param("id")
 
 	data, err := ctrl.service.FindById(c, id)
@@ -143,16 +151,16 @@ func (ctrl *AlbumController) FindById(c *gin.Context) {
 }
 
 // Delete godoc
-// @Summary Delete an album by ID
-// @Description Delete an album by ID
-// @Tags albums
+// @Summary Delete a song by ID
+// @Description Delete a song by ID
+// @Tags songs
 // @Accept  json
 // @Produce  json
-// @Param id path string true "Album ID"
+// @Param id path string true "Song ID"
 // @Success 200 {object} utils.SuccessResponse{data=nil}
 // @Failure 500 {object} utils.ErrorResponse{error=string}
-// @Router /albums/{id} [delete]
-func (ctrl *AlbumController) Delete(c *gin.Context) {
+// @Router /songs/{id} [delete]
+func (ctrl *SongController) Delete(c *gin.Context) {
 	id := c.Param("id")
 
 	err := ctrl.service.Delete(c, id)
@@ -164,6 +172,6 @@ func (ctrl *AlbumController) Delete(c *gin.Context) {
 	utils.WriteSuccessResponse(c, utils.DELETED_MESSAGE, nil)
 }
 
-func NewAlbumController(service services.AlbumService) *AlbumController {
-	return &AlbumController{service, validator.New()}
+func NewSongController(service services.SongService) *SongController {
+	return &SongController{service, validator.New()}
 }

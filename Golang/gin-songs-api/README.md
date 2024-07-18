@@ -41,6 +41,18 @@ CREATE DATABASE db_gin_songs_api_golang;
 open the `migrations.sql` file in the `db` directory and copy the contents to the terminal.
 
 ### Project Setup
+- Install the following Go packages:
+```bash
+go install github.com/swaggo/swag/cmd/swag@latest
+go get -u github.com/swaggo/gin-swagger
+go get -u github.com/swaggo/files
+```
+
+- Generate Swagger documentation:
+```bash
+swag init
+```
+
 - Clone the repository
 - Create a `.env` file in the root directory and add the following environment variables:
 ```env
