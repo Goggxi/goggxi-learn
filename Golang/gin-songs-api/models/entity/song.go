@@ -4,10 +4,10 @@ import "time"
 
 type Song struct {
 	ID          string
-	Name        string
+	Title       string
 	AlbumID     string
-	Duration    float64
-	ReleaseDate time.Time
+	Duration    int64
+	ReleaseDate *time.Time
 	CreatedAt   time.Time
 	UpdatedAt   time.Time
 }

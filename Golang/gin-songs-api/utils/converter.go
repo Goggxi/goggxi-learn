@@ -46,7 +46,7 @@ func ConvertToAPIAlbums(repoAlbums []*entity.Album, repoArtists []*entity.Artist
 func ConvertToAPISong(repoSong *entity.Song, repoAlbum *entity.Album, repoArtist *entity.Artist) *api.Song {
 	return &api.Song{
 		ID:          repoSong.ID,
-		Name:        repoSong.Name,
+		Title:       repoSong.Title,
 		Album:       *ConvertToAPIAlbum(repoAlbum, repoArtist),
 		Duration:    repoSong.Duration,
 		ReleaseDate: repoSong.ReleaseDate,

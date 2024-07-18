@@ -7,7 +7,7 @@ type Album struct {
 	Title       string
 	Genre       string
 	ArtistID    string
-	ReleaseDate time.Time
+	ReleaseDate *time.Time
 	CreatedAt   time.Time
 	UpdatedAt   time.Time
 }

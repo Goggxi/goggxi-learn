@@ -71,7 +71,7 @@ go run main.go
 
 ### Album
 - id: string
-- name: string
+- title: string
 - genre: string
 - artist_id: string (foreign key)
 - release_date: string
@@ -80,9 +80,9 @@ go run main.go
 
 ### Song
 - id: string
-- name: string
+- title: string
 - album_id: string (foreign key)
-- duration: float
+- duration: int (in seconds)
 - release_date: string
 - created_at: string
 - updated_at: string
@@ -179,7 +179,7 @@ go run main.go
 - Request Body:
 ```json
 {
-  "name": "name",
+  "title": "title",
   "genre": "genre",
   "artist_id": "artist_id",
   "release_date": "release_date"
@@ -192,7 +192,7 @@ go run main.go
   "message": "Album created successfully",
   "data": {
     "id": "id",
-    "name": "name",
+    "title": "title",
     "genre": "genre",
     "artist": {
       "id": "id",
@@ -216,7 +216,7 @@ go run main.go
   "data": [
     {
       "id": "id",
-      "name": "name",
+      "title": "title",
       "genre": "genre",
       "artist": {
         "id": "id",
@@ -240,7 +240,7 @@ go run main.go
   "message": "Album retrieved successfully",
   "data": {
     "id": "id",
-    "name": "name",
+    "title": "title",
     "genre": "genre",
     "artist": {
       "id": "id",
@@ -260,7 +260,7 @@ go run main.go
 - Request Body:
 ```json
 {
-  "name": "name",
+  "title": "title",
   "genre": "genre",
   "artist_id": "artist_id",
   "release_date": "release_date"
@@ -273,7 +273,7 @@ go run main.go
   "message": "Album updated successfully",
   "data": {
     "id": "id",
-    "name": "name",
+    "title": "title",
     "genre": "genre",
     "artist": {
       "id": "id",
@@ -301,7 +301,7 @@ go run main.go
 - Request Body:
 ```json
 {
-  "name": "name",
+  "title": "title",
   "album_id": "album_id",
   "duration": "duration",
   "release_date": "release_date"
@@ -314,10 +314,10 @@ go run main.go
   "message": "Song created successfully",
   "data": {
     "id": "id",
-    "name": "name",
+    "title": "title",
     "album": {
       "id": "id",
-      "name": "name",
+      "title": "title",
       "genre": "genre",
       "artist": {
         "id": "id",
@@ -330,7 +330,7 @@ go run main.go
       "created_at": "created_at",
       "updated_at": "updated_at"
     },
-    "duration": 0.0,
+    "duration": 0,
     "release_date": "release_date",
     "created_at": "created_at",
     "updated_at": "updated_at"
@@ -346,10 +346,10 @@ go run main.go
   "data": [
     {
       "id": "id",
-      "name": "name",
+      "title": "title",
       "album": {
         "id": "id",
-        "name": "name",
+        "title": "title",
         "genre": "genre",
         "artist": {
           "id": "id",
@@ -362,7 +362,7 @@ go run main.go
         "created_at": "created_at",
         "updated_at": "updated_at"
       },
-      "duration": 0.0,
+      "duration": 0,
       "release_date": "release_date",
       "created_at": "created_at",
       "updated_at": "updated_at"
@@ -378,10 +378,10 @@ go run main.go
   "message": "Song retrieved successfully",
   "data": {
     "id": "id",
-    "name": "name",
+    "title": "title",
     "album": {
       "id": "id",
-      "name": "name",
+      "title": "title",
       "genre": "genre",
       "artist": {
         "id": "id",
@@ -394,7 +394,7 @@ go run main.go
       "created_at": "created_at",
       "updated_at": "updated_at"
     },
-    "duration": 0.0,
+    "duration": 0,
     "release_date": "release_date",
     "created_at": "created_at",
     "updated_at": "updated_at"
@@ -406,7 +406,7 @@ go run main.go
 - Request Body:
 ```json
 {
-  "name": "name",
+  "title": "title",
   "album_id": "album_id",
   "duration": "duration",
   "release_date": "release_date"
@@ -419,10 +419,10 @@ go run main.go
   "message": "Song updated successfully",
   "data": {
     "id": "id",
-    "name": "name",
+    "title": "title",
     "album": {
       "id": "id",
-      "name": "name",
+      "title": "title",
       "genre": "genre",
       "artist": {
         "id": "id",
@@ -435,7 +435,7 @@ go run main.go
       "created_at": "created_at",
       "updated_at": "updated_at"
     },
-    "duration": 0.0,
+    "duration": 0,
     "release_date": "release_date",
     "created_at": "created_at",
     "updated_at": "updated_at"

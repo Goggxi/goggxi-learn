@@ -13,12 +13,15 @@ import (
 func SetupRoutes(r *gin.Engine, pool *pgxpool.Pool) {
 	// Repositories
 	artistRepository := repositories.NewArtistRepository()
+	albumRepository := repositories.NewAlbumRepository()
 
 	// Services
 	artistService := services.NewArtistService(artistRepository, pool)
+	albumService := services.NewAlbumService(albumRepository, artistRepository, pool)
 
 	// Controllers
 	artistController := controllers.NewArtistController(artistService)
+	albumController := controllers.NewAlbumController(albumService)
 
 	// Docs
 	r.GET("/swagger/*any", ginswagger.WrapHandler(swaggerFiles.Handler))
@@ -29,11 +32,21 @@ func SetupRoutes(r *gin.Engine, pool *pgxpool.Pool) {
 	// Path: /api/v1/artists
 	artists := api.Group("/artists")
 	{
-		artists.POST("/", artistController.Create)
+		artists.POST("", artistController.Create)
 		artists.PUT("/:id", artistController.Update)
-		artists.GET("/", artistController.FindAll)
+		artists.GET("", artistController.FindAll)
 		artists.GET("/:id", artistController.FindById)
 		artists.DELETE("/:id", artistController.Delete)
+	}
+
+	// Path: /api/v1/albums
+	albums := api.Group("/albums")
+	{
+		albums.POST("", albumController.Create)
+		albums.PUT("/:id", albumController.Update)
+		albums.GET("", albumController.FindAll)
+		albums.GET("/:id", albumController.FindById)
+		albums.DELETE("/:id", albumController.Delete)
 	}
 
 }

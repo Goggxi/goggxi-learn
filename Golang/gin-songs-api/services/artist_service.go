@@ -117,6 +117,10 @@ func (s *artistService) FindAll(ctx context.Context) ([]*api.Artist, error) {
 		return nil, err
 	}
 
+	if len(data) == 0 {
+		return []*api.Artist{}, nil
+	}
+
 	return utils.ConvertToAPIArtists(data), nil
 }
 
