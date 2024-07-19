@@ -16,7 +16,8 @@ pyenv uninstall django-songs-api-env
 
 # Create a new folder .venv and activate the virtual environment
 python -m venv .venv
-source .venv/bin/activate
+source .venv/bin/activate # Linux or MacOS
+# .venv\Scripts\activate  # Windows
 
 # Install Django
 pip install django
@@ -29,4 +30,7 @@ pip freeze > requirements.txt
 
 # Run the server
 python manage.py runserver
+
+# Create a new app inside the project
+python manage.py startapp hello
 ```
