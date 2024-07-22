@@ -2,6 +2,7 @@ package main
 
 import (
 	"gin-gorm-songs-api/configs"
+	_ "gin-gorm-songs-api/docs"
 	"gin-gorm-songs-api/models/entities"
 	"gin-gorm-songs-api/utils"
 	"gorm.io/gorm"

@@ -1,0 +1,16 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "This is a simple songs API",
+        "title": "Songs API",
+        "contact": {
+            "name": "Moh Rifkan",
+            "url": "https://github.com/Goggxi",
+            "email": "goggxi@gmail.com"
+        },
+        "version": "1"
+    },
+    "host": "localhost:3000",
+    "basePath": "/api/v1",
+    "paths": {}
+}
