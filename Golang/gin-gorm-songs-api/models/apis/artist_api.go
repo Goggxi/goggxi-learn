@@ -5,7 +5,7 @@ import (
 )
 
 type ArtistRes struct {
-	ID        bool      `json:"id" example:"1"`
+	ID        string    `json:"id" example:"uuid"`
 	Name      string    `json:"name" example:"John Doe"`
 	Bio       string    `json:"bio" example:"Lorem ipsum dolor sit amet"`
 	CreatedAt time.Time `json:"created_at" example:"2021-01-01T00:00:00Z"`

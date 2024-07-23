@@ -6,7 +6,7 @@ import (
 )
 
 type Artist struct {
-	ID        uint           `gorm:"primary_key"`
+	ID        string         `gorm:"primary_key;type:uuid"`
 	Name      string         `gorm:"type:varchar(100);not null"`
 	Bio       string         `gorm:"type:text"`
 	CreatedAt time.Time      `gorm:"default:CURRENT_TIMESTAMP"`
