@@ -32,5 +32,14 @@ pip freeze > requirements.txt
 python manage.py runserver
 
 # Create a new app inside the project
-python manage.py startapp hello
+python manage.py startapp api
+```
+
+# migrations
+```bash
+# Create a new migration
+python manage.py makemigrations
+
+# Apply the migration
+python manage.py migrate
 ```
