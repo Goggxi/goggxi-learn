@@ -11,7 +11,6 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 
 from pathlib import Path
-from decouple import config
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -132,7 +131,7 @@ REST_FRAMEWORK = {
 }
 
 PAGINATION = {
-    'PAGE_SIZE': config('PAGE_SIZE', default=10, cast=int),
-    'PAGE_SIZE_QUERY_PARAM': config('PAGE_SIZE_QUERY_PARAM', default='page_size'),
-    'PAGE_SIZE_MAX': config('PAGE_SIZE_MAX', default=250, cast=int),
+    'PAGE_SIZE': 10,
+    'PAGE_SIZE_QUERY_PARAM': 'page_size',
+    'PAGE_SIZE_MAX': 250,
 }
