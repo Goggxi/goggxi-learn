@@ -3,15 +3,18 @@ from django.contrib.contenttypes.fields import GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
 
 
-class Attachment(models.Model):
-    content_type = models.ForeignKey(ContentType, null=True, on_delete=models.SET_NULL)
-    object_id = models.PositiveIntegerField(null=True)
-    content_object = GenericForeignKey('content_type', 'object_id')
-    file = models.FileField(upload_to='attachments/')
+def attachment_upload_path(instance, filename):
+    return f'attachments/{instance.content_type.model}/{instance.object_id}/{filename}'
 
-    # Information
-    created_at = models.DateTimeField(auto_now_add=True, null=True, editable=False)
-    updated_at = models.DateTimeField(auto_now=True, null=True, editable=False)
+
+class Attachment(models.Model):
+    file = models.FileField(upload_to=attachment_upload_path, help_text="File attachment")
+    content_type = models.ForeignKey(ContentType, null=True, on_delete=models.SET_NULL)
+    object_id = models.PositiveIntegerField()
+    content_object = GenericForeignKey('content_type', 'object_id')
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return self.file.name
+        return f"a file attachment for {self.content_object}"
